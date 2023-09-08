@@ -6,11 +6,11 @@ package com.example.pokedex_app.domain
  * todo esse código repetitivo é gerado automaticamente pelo compilador.
  * **/
 data class Pokemon (
-    val imagemUrl: String,
     val number: Int,
     val name: String,
     val types: List<PokemonType>
 ) {
-    val formattedNumber = number.toString().padStart(3, '0')
+    val formattedNumber = number.toString().padStart(3, '0');
+    val imageUrl = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/$formattedNumber.png"
 }
 

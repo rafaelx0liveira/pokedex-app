@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pokedex_app.R
 import com.example.pokedex_app.domain.Pokemon
 
 class PokemonAdapter(
-    private val items:List<Pokemon>
+    private val items:List<Pokemon?>
 ) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,7 +39,7 @@ class PokemonAdapter(
      * Atualizar o xml
      * **/
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun bindView(item: Pokemon) =
+        fun bindView(item: Pokemon?) =
             /**
              * O 'with' é uma função de escopo, que são funções da biblioteca padrão do Kotlin
              * cujo o objetivo é executar um bloco de código dentro de um escopo/contexto de um
@@ -59,20 +60,23 @@ class PokemonAdapter(
 
                 // TODO: Load image with Glide
 
-                // Utilizando biblioteca para carregamento de imagem
-                tvNumber.text = "Nº ${item.formattedNumber}";
-                tvName.text = item.name;
-                tvType1.text = item.types[0].name;
+                item?.let {
+                    // Utilizando biblioteca para carregamento de imagem
+                    Glide.with(itemView.context).load(it.imageUrl).into(ivPokemon);
 
-                if(item.types.size > 1) {
-                    tvType2.visibility = View.VISIBLE;
-                    tvType2.text = item.types[1].name;
-                } else {
-                    tvType2.visibility = View.GONE;
+                    tvNumber.text = "Nº ${item.formattedNumber}";
+                    tvName.text = item.name;
+                    tvType1.text = item.types[0].name;
+
+                    if(item.types.size > 1) {
+                        tvType2.visibility = View.VISIBLE;
+                        tvType2.text = item.types[1].name;
+                    } else {
+                        tvType2.visibility = View.GONE;
+                    }
+
                 }
-
             }
-
     }
 
 }
